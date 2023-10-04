@@ -28,6 +28,19 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const userDoc = await User.findOne({ username: username });
+  const passOk = bcrypt.compareSync(password, userDoc.password);
+  res.json(passOk);
+  if (passOk) {
+    //logged in
+    
+  } else {
+    res.status(400).json("wrong credentials");
+  }
+});
+
 app.listen(4001, () => {
   console.log("Server is running on port 4001");
 });
